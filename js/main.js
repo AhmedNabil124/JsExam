@@ -188,3 +188,25 @@ $('.LinksNav').click(function(){
     $(".innerBox .item6").animate({ opacity: "1",paddingTop: "25px"},1600)
 })
     
+
+var allMoviesByWord = document.getElementById("allMovies");
+function getMoviesByWord(w) {
+  var myHttp = new XMLHttpRequest();
+  myHttp.open(
+    "get",
+    "https://api.themoviedb.org/3/search/movie?query=" +
+      w +
+      "&api_key=eba8b9a7199efdcb0ca1f96879b83c44&language=en-US&include_adult=false"
+  ),
+    myHttp.send(),
+    (myHttp.onreadystatechange = function () {
+      if (myHttp.readyState == 4 && myHttp.status == 200) {
+        trendingMovies = JSON.parse(myHttp.response).results;
+        console.log(trendingMovies);
+        displayItem();
+      }
+    });
+}
+allMoviesByWord.onkeyup = function () {
+  getMoviesByWord(allMoviesByWord.value);
+};
